@@ -1,0 +1,36 @@
+---
+- hosts: localhost
+  connection: local
+  tasks:
+    - vsphere_guest:
+        validate_certs: no
+        vcenter_hostname: <ip-of-Vcenter>
+        username: <username>
+        password: <password>
+        guest: <vm-name>
+        state: powered_on
+        vm_extra_config:
+          vcpu.hotadd: yes
+          mem.hotadd:  yes
+          notes: <Description>
+        vm_disk:
+          disk1:
+            size_gb: 10
+            type: thin
+            datastore: <Datastore-name>
+        vm_nic:
+          nic1:
+            type: vmxnet3
+            network: VM Network
+            network_type: standard
+        vm_hardware:
+          memory_mb: 2048
+          num_cpus: 2
+          osid: ubuntu64Guest
+          scsi: paravirtual
+          vm_cdrom:
+            type: "iso"
+            iso_path: "<datastore-name>/<image-name>.iso"
+        esxi:
+          datacenter: ha-datacenter
+          hostname: <hostname-of-vcenter>
